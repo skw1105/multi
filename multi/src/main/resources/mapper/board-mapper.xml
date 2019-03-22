@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.autocar.dao.BlogBoardDao">
+	<select id="count"	resultType="int">
+		SELECT count(*) FROM blog_board
+		where blog_host=#{UserId}
+	</select>
+	
+	<select id="getPage" resultType="BlogBoard">
+		SELECT title, read_cnt, reg_date, update_date
+		FROM(
+			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, title, read_cnt, reg_date, update_date
+			FROM blog_board
+			where blog_host=#{blogHost}
+		)
+		WHERE SEQ BETWEEN #{start} AND #{end};
+	</select>
+	
+	<select id="findByTitle" parameterType="String" resultType="BlogBoard">
+		SELECT title, read_cnt, reg_date, update_date
+    	from (
+			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, title, read_cnt, reg_date, update_date
+			FROM blog_board
+			where blog_host=#{blogHost}
+		)
+		WHERE title like '%board%';
+	</select>
+	
+	<insert id="insert" parameterType="BlogBoard" useGeneratedKeys="true"
+		keyColumn = "board_id" keyProperty="boardId">
+		insert into blog_board
+		(board_id, BLOG_HOST, title, read_cnt, content, reg_date, update_date)
+		values(board_SEQ.NEXTVAL, #{userId}, #{title}, 0, #{content}, sysdate, sysdate);
+	</insert>
+	
+	<update id="increaseReadCnt" parameterType="int">
+		UPDATE BLOG_BOARD SET
+			read_cnt = read_cnt + 1
+		WHERE board_id=#{boardId}
+	</update>
+	
+	<update id="update" parameterType="BlogBoard">
+		UPDATE BLOG_BOARD SET
+			title = #{title},
+			content = #{content},
+			update_date = sysdate
+		WHERE board_id=#{boardId} and Blog_host=#{userId}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM BLOG_BOARD
+		WHERE board_id=#{boardId} and Blog_host=#{userId}
+	</delete>
+</mapper>
