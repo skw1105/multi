@@ -10,7 +10,7 @@ public interface CrudDao<M, K> {
 	
 	List<M> getPage(@Param("start")int start,
 					@Param("end")int end) throws Exception;
-
+   
 	M findById(K k) throws Exception;
 	
 	int insert(M m) throws Exception;
