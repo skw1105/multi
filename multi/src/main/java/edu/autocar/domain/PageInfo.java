@@ -59,12 +59,4 @@ public class PageInfo<T> {
 		prevBlockPage = page - perBlock;
 		nextBlockPage = page + perBlock;
 	}
-	
-//	public PageInfo(int page, int totalCount){
-//		this.page = page;
-//		this.totalCount = totalCount;
-//		
-//		this.start = (page - 1) * PER_PAGE_COUNT;
-//		this.end = start + PER_PAGE_COUNT;
-//	}
 }
