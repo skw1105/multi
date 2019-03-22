@@ -12,5 +12,5 @@ public interface MembershipService {
 
 	//boolean update(Membership membership) throws Exception;
 	
-	//public Membership checkPassword(String userId, String password) throws Exception;
+	public Membership checkPassword(String userId, String password) throws Exception;
 }

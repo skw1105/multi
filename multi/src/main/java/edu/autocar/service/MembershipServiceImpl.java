@@ -55,16 +55,16 @@ public class MembershipServiceImpl implements MembershipService {
 //		return dao.update(membership) == 1;
 //	}
 								
-//	@Override
-//	public Membership checkPassword(String userId, String password) throws Exception {
-//		Membership user = dao.findById(userId);
-//		if (user != null) { // 사용자 ID가 존재하는 경우
-//			password = SHA256Util.getEncrypt(password, user.getSalt());
-//			if (password.equals(user.getPassword()))
-//				return user;
-//		}
-//		// ID가 없거나 비밀번호가 다른 경우
-//		return null;
-//	}
+	@Override
+	public Membership checkPassword(String userId, String password) throws Exception {
+		Membership user = dao.findById(userId);
+		if (user != null) { // 사용자 ID가 존재하는 경우
+			password = SHA256Util.getEncrypt(password, user.getSalt());
+			if (password.equals(user.getPassword()))
+				return user;
+		}
+		// ID가 없거나 비밀번호가 다른 경우
+		return null;
+	}
 
 }
