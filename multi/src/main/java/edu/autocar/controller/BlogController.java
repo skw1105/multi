@@ -14,5 +14,6 @@ public class BlogController {
 	public String list() throws Exception {
 		System.out.println("test body sysout");
 		return "blog/list";
+		  
 	}
 }

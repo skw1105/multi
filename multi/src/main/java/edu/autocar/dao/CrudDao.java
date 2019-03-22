@@ -18,4 +18,6 @@ public interface CrudDao<M, K> {
 	int update(M m) throws Exception;
 	
 	int delete(K k) throws Exception;
+	   
 }
+   
