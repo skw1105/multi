@@ -23,11 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import edu.autocar.domain.Comment;
 import edu.autocar.domain.FileInfo;
 import edu.autocar.domain.Gallery;
-import edu.autocar.domain.Image;
 import edu.autocar.domain.Member;
 import edu.autocar.domain.PageInfo;
+import edu.autocar.service.CommentService;
 import edu.autocar.service.GalleryService;
 import edu.autocar.service.ImageService;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,8 @@ public class GalleryController {
 	GalleryService service;
 	@Autowired
 	ImageService imageService;
+	@Autowired
+	CommentService commentService;
 
 	@ModelAttribute("user")
 	// 모든 URL 처리에 다 호출된다
@@ -78,12 +81,24 @@ public class GalleryController {
 	}
 
 	@GetMapping("/view/{galleryId}")
-	public String getGallery(@PathVariable int galleryId, Model model) throws Exception {
+	public String getGallery(@PathVariable int galleryId, Model model,
+							 @RequestParam(value="page", defaultValue= "1") int page,
+							 @RequestParam(value="cmtPage", defaultValue="1") int cmtPage) throws Exception {
 		Gallery gallery = service.getGallery(galleryId);
 		model.addAttribute("gallery", gallery);
+		
+		//comments
+		PageInfo<Comment> pi = commentService.getPage(galleryId, cmtPage);
+		model.addAttribute("pi", pi);
 		return "gallery/view";
 	}
-
+	
+	@PostMapping("/replyCreate/{galleryId}")
+	public String replyCreate(@PathVariable int galleryId, Comment comment) throws Exception {
+		comment.setPostId(galleryId);
+		commentService.insert(comment);
+		return "redirect:../view/" + galleryId;
+	}
 	@GetMapping("/image/{imageId}")
 	public String getImage(@PathVariable int imageId, Model model) throws Exception {
 		FileInfo fi = imageService.getFileInfo(imageId);

@@ -10,15 +10,18 @@
 <script
 	src="${contextPath}/resources/bower_components/tinymce/tinymce.min.js"></script>
 <script>
-$(function() {
-	tinymce.init({
-		selector : 'textarea',
-		theme : "modern",
-		language : 'ko_KR',
-		height : 200,
-        theme_advanced_resizing : false
-    });
-});
+	$(function() {
+		tinymce.init({
+			selector : 'textarea',
+			language : 'ko_KR',
+			height : 200,
+			theme_advanced_resizing : false
+		});
+		
+		$(".btn.cmt-list").click(function(){
+			$(".table-toggle").toggle();
+		});
+	});
 </script>
 <title>Insert title here</title>
 </head>
@@ -68,38 +71,44 @@ $(function() {
 	</div>
 	<hr />
 	<div class="container">
-		<h5 class="my-3">
-			댓글 목록
-			</h2>
-			<table class="table table-striped table-hover">
-				<tr>
-					<th>No</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>조회수</th>
-					<th>등록일</th>
-				</tr>
-				<c:forEach var="board" items="${pi.list}">
-					<tr>
-						<td>${board.boardId}</td>
-						<td><a href="view/${board.boardId}?page=${pi.page}">
-								${board.title}</a> <iot:newToday test="${board.regDate}" /></td>
-						<td>${board.writer}</td>
-						<td>${board.readCnt}</td>
-						<td><fmt:formatDate value="${board.regDate}"
-								pattern="yyyy-MM-dd" /></td>
-					</tr>
-				</c:forEach>
-			</table>
-	</div>
-	<div class="text-left">
-		<h5 class="my-3"> 댓글을 달아주세요 </h5>
-		<form:form modelAttribute="reply">
-			
-		</form:form>
-		<textarea> web editor </textarea>
-	</div>
 
+		<h6 class="my-3">
+			<button class="btn cmt-list" style="border: 2px solid pink">
+				<i class="fas fa-list-ul" style="margin-right: 1em"></i>댓글 목록
+				&nbsp[${pi.totalCount}]
+			</button>
+		</h6>
+		<div class="table-toggle">
+			<table class="table table-hover">
+				<tbody>
+					<c:forEach var="comment" items="${pi.list}">
+						<tr>
+							<td>${comment.writer}</td>
+						</tr>
+						<tr>
+							<td>${comment.content}</td>
+						</tr>
+						<tr>
+							<td><fmt:formatDate value="${comment.regDate}"
+									pattern="yyyy-MM-dd" /></td>
+						</tr>
+						<tr>
+							<td><button>답글</button></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="text-left">
+			<p>[user id]</p>
+			<form method="post"
+				action="${contextPath}/gallery/replyCreate/${gallery.galleryId}">
+				<textarea id="txtarea" name="content"> web editor </textarea>
+				<input type="submit" class="btn">
+			</form>
+		</div>
+	</div>
 
 
 </body>
