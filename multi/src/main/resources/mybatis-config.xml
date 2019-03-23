@@ -15,11 +15,13 @@
 
 	<typeAliases>
 		<typeAlias type="edu.autocar.domain.Membership" alias="Membership" />
+		<typeAlias type="edu.autocar.domain.BlogBoard" alias="BlogBoard" />
 	</typeAliases>
 
 
 
 	<mappers>
 		<mapper resource="mapper/membership-mapper.xml" />
+		<mapper resource="mapper/blogboard-mapper.xml" />
 	</mappers>
 </configuration>
