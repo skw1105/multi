@@ -4,7 +4,7 @@
 <mapper namespace="edu.autocar.dao.BlogBoardDao">
 	<select id="count"	resultType="int">
 		SELECT count(*) FROM blog_board
-		where blog_host=#{UserId}
+		where blog_host=#{blogHost}
 	</select>
 	
 	<select id="getPage" resultType="BlogBoard">
@@ -17,21 +17,27 @@
 		WHERE SEQ BETWEEN #{start} AND #{end};
 	</select>
 	
-	<select id="findByTitle" parameterType="String" resultType="BlogBoard">
-		SELECT title, read_cnt, reg_date, update_date
+	<select id="findById" parameterType="int" resultType="BlogBoard">
+		SELECT *
+    	from blog_board
+		WHERE board_id=#{boardId};
+	</select>
+	
+	<select id="findByTitle" resultType="BlogBoard">
+		SELECT *
     	from (
-			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, title, read_cnt, reg_date, update_date
+			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ
 			FROM blog_board
 			where blog_host=#{blogHost}
 		)
-		WHERE title like '%board%';
+		WHERE SEQ BETWEEN #{start} AND #{end} title like #{text};
 	</select>
 	
 	<insert id="insert" parameterType="BlogBoard" useGeneratedKeys="true"
 		keyColumn = "board_id" keyProperty="boardId">
 		insert into blog_board
 		(board_id, BLOG_HOST, title, read_cnt, content, reg_date, update_date)
-		values(board_SEQ.NEXTVAL, #{userId}, #{title}, 0, #{content}, sysdate, sysdate);
+		values(blog_board_SEQ.NEXTVAL, #{userId}, #{title}, 0, #{content}, sysdate, sysdate);
 	</insert>
 	
 	<update id="increaseReadCnt" parameterType="int">
