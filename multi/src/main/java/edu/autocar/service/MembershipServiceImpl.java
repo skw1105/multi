@@ -21,14 +21,14 @@ public class MembershipServiceImpl implements MembershipService {
 	@Autowired
 	MembershipDao dao;
 	
-	@Override
-	public PageInfo<Membership> getPage(int page) throws Exception {
-		int totalCount = dao.count();
-		PageInfo<Membership> pi = new PageInfo<Membership>(page, totalCount);
-		List<Membership> list = dao.getPage(pi.getStart(), pi.getEnd());
-		pi.setList(list);
-		return pi;
-	}
+//	@Override
+//	public PageInfo<Membership> getPage(int page) throws Exception {
+//		int totalCount = dao.count();
+//		PageInfo<Membership> pi = new PageInfo<Membership>(page, totalCount);
+//		List<Membership> list = dao.getPage(pi.getStart(), pi.getEnd());
+//		pi.setList(list);
+//		return pi;
+//	}
 
 	@Override
 	public Membership getMembership(String userId) throws Exception {
@@ -46,15 +46,15 @@ public class MembershipServiceImpl implements MembershipService {
 		dao.insert(membership);
 	}
 
-	@Transactional
-	@Override
-	public boolean update(Membership membership) throws Exception {
-		if (checkPassword(membership.getUserId(), membership.getPassword()) == null)
-			return false;
-		
-		return dao.update(membership) == 1;
-	}
-
+//	@Transactional
+//	@Override
+//	public boolean update(Membership membership) throws Exception {
+//		if (checkPassword(membership.getUserId(), membership.getPassword()) == null)
+//			return false;
+//		
+//		return dao.update(membership) == 1;
+//	}
+								
 	@Override
 	public Membership checkPassword(String userId, String password) throws Exception {
 		Membership user = dao.findById(userId);

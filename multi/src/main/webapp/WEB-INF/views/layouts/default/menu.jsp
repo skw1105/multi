@@ -20,6 +20,10 @@
 				</a></li>
 			</c:if>
 			<c:if test="${not empty USER}">
+			<li class="nav-item"><a class="nav-link"
+					href="${contextPath}/member/view"> <i class="fas fa-address-book"></i>
+						My Blog
+				</a></li>
 				<li class="nav-item"><a class="nav-link"
 					href="${contextPath}/member/view"> <i class="fas fa-user"></i>
 						${USER.userId}

@@ -18,7 +18,7 @@
 		DESC
 	</select>
 
-	<select id="findById" resultType="Membership">
+	<select id="findById" parameterType="String" resultType="Membership">
 		SELECT *
 		from membership
 		WHERE user_id=#{userId}
