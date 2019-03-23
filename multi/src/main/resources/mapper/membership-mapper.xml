@@ -7,17 +7,14 @@
 	</select>
 
 	<select id="getPage" resultType="Membership">
-		SELECT user_id, name,
-		EXPLANATION, update_date
+		SELECT user_id, name, EXPLANATION, UPLOAD_DATE
 		FROM(
-		SELECT ROW_NUMBER() OVER (ORDER BY
-		upload_date DESC) AS SEQ,
-		user_id, name, EXPLANATION, update_date
-		FROM
-		membership
+		SELECT ROW_NUMBER() OVER (ORDER BY upload_date DESC) AS SEQ,
+		user_id, name, EXPLANATION, UPLOAD_DATE
+		FROM MEMBERship
 		)
 		WHERE SEQ BETWEEN #{start} AND #{end}
-		ORDER BY update_date
+		ORDER BY UPLOAD_DATE
 		DESC
 	</select>
 
@@ -27,8 +24,7 @@
 		WHERE user_id=#{userId}
 	</select>
 
-	<insert id="insert" parameterType="Membership"
-		useGeneratedKeys="true" keyColumn="user_id" keyProperty="userId">
+	<insert id="insert" parameterType="Membership">
 		insert into
 		membership (user_id, password, name, salt, email, phone, explanation, reg_date, update_date, upload_date)
 		values(#{userId}, #{password}, #{name}, #{salt}, #{email}, #{phone}, #{explanation}, sysdate, sysdate, sysdate)
@@ -43,8 +39,6 @@
 		WHERE user_id=#{userId} and password=#{password}
 	</update>
 
-	<delete id="delete">
-		DELETE FROM membership
-		WHERE user_id=#{userId} and password=#{password}
+	<delete id="delete"> DELETE FROM MEMBERSHIP WHERE user_id=#{userId}
 	</delete>
 </mapper>
