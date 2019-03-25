@@ -5,5 +5,5 @@ import edu.autocar.domain.PageInfo;
 
 public interface CommentService{
 	boolean insert(Comment comment) throws Exception;
-	PageInfo<Comment> getPage(int gallerId, int page) throws Exception;
+	PageInfo<Comment> getPage(int blogHost, int page) throws Exception;
 }

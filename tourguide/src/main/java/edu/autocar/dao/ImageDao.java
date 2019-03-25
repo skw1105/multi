@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.autocar.domain.Image;
 
 public interface ImageDao {
-	List<Image> getGalleryImages(int galleryId) throws Exception;
+	List<Image> getGalleryImages(int boardId) throws Exception;
 
 	Image getImage(int imageId) throws Exception;
 

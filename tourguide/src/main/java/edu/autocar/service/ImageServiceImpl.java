@@ -27,6 +27,7 @@ public class ImageServiceImpl implements ImageService {
 	@Transactional
 	@Override
 	public void create(Image image) throws Exception {
+		System.out.println(image);
 		dao.insert(image); // imageId 발급 받음
 	}
 
@@ -41,8 +42,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public List<Image> getGalleryImages(int galleryId) throws Exception {
-		return dao.getGalleryImages(galleryId);
+	public List<Image> getGalleryImages(int boardId) throws Exception {
+		return dao.getGalleryImages(boardId);
 	}
 
 	@Override
@@ -66,8 +67,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public int deleteByGalleryId(int galleryId) throws Exception {
-		return dao.delete(galleryId);
+	public int deleteByGalleryId(int boardId) throws Exception {
+		return dao.delete(boardId);
 	}
 
 }

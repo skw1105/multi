@@ -30,11 +30,10 @@ public class CommentServiceImpl implements CommentService {
 	public PageInfo<Comment> getPage(int galleryId, int page) throws Exception {
 		// TODO Auto-generated method stub
 		int totalCount = dao.count(galleryId);
-		System.out.println("impl's totalCount : " + totalCount);
 		PageInfo<Comment> pi = new PageInfo<>(page, totalCount);
 		List<Comment> list = dao.getPage(galleryId, pi.getStart(), pi.getEnd());
-		for(Comment cmt : list)
-			System.out.println(cmt.getCommentNo() + ", " + cmt.getContent());
+//		for(Comment cmt : list)
+//			System.out.println(cmt.getCommentNo() + ", " + cmt.getContent());
 		pi.setList(list);
 		return pi;
 	}

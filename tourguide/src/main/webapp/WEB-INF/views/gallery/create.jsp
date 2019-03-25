@@ -13,17 +13,12 @@
 	<h2 class="my-5">
 		<i class="fas fa-edit"></i> 갤러리 만들기
 	</h2>
-	<form:form modelAttribute="gallery" enctype="multipart/form-data"> 
+	<form:form modelAttribute="blogBoard" enctype="multipart/form-data"> 
 		<!--  인코딩 타입 : 중요 멀티파트 지정! -->
 		<div class="form-group">
-			<label for="owner">소유자</label> <input type="hidden" name="owner"
+			<label for="writer">소유자</label> <input type="hidden" name="writer"
 				value="${USER.userId}" />
 			<p class="form-control-static">${USER.userId}</p>
-		</div>
-		<div class="form-group">
-			<label for="password">비밀번호</label>
-			<form:password path="password" class="form-control" />
-			<form:errors path="password" element="div" cssClass="error" />
 		</div>
 		<div class="form-group">
 			<label for="title">제목</label>
@@ -31,8 +26,8 @@
 			<form:errors path="title" element="div" cssClass="error" />
 		</div>
 		<div class="form-group">
-			<label for="description">내용</label>
-			<form:textarea path="description" class="form-control" rows="5" />
+			<label for="content">내용</label>
+			<form:textarea path="content" class="form-control" rows="5" />
 		</div>
 		<div class="form-group">
 			<label>이미지 파일들</label> <input type="file"

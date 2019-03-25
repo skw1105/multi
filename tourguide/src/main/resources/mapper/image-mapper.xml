@@ -4,11 +4,11 @@
 <mapper namespace="edu.autocar.dao.ImageDao">
 	<insert id="insert" parameterType="Image"
 		useGeneratedKeys="true" keyColumn="image_id" keyProperty="imageId"> INSERT INTO
-		image ( image_id, gallery_id, orginal_name, file_size, mime_type
-		)VALUES( IMAGE_SEQ.NEXTVAL, #{galleryId}, #{orginalName}, #{fileSize},
+		image ( image_id, board_id, orginal_name, file_size, mime_type
+		)VALUES( IMAGE_SEQ.NEXTVAL, #{boardId}, #{orginalName}, #{fileSize},
 		#{mimeType} ) </insert>
 	<select id="getGalleryImages" parameterType="int"
-		resultType="Image"> SELECT * FROM image WHERE gallery_id=#{galleryId} </select>
+		resultType="Image"> SELECT * FROM image WHERE board_id=#{boardId} </select>
 	<select id="getImage" parameterType="int" resultType="Image"> SELECT *
 		FROM image WHERE image_id=#{imageId} </select>
 	<delete id="delete" parameterType="int"> DELETE FROM image WHERE

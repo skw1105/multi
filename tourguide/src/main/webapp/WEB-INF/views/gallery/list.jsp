@@ -3,6 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib tagdir="/WEB-INF/tags/util" prefix="iot"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,16 +27,16 @@
 			<th>조회수</th>
 			<th>등록일</th>
 		</tr>
-		<c:forEach var="gallery" items="${pi.list}">
+		<c:forEach var="blog" items="${pi.list}">
 			<tr>
-				<td>${gallery.galleryId}</td>
-				<td><a href="view/${gallery.galleryId}?page=${pi.page}">
-						${gallery.title} <span class="badge badge-pill badge-success">
-							${gallery.list.size()}</span> <iot:newToday test="${gallery.regDate}" />
+				<td>${blog.boardId}</td>
+				<td><a href="view/${blog.boardId}?page=${pi.page}">
+						${blog.title} <span class="badge badge-pill badge-success">
+							${blog.list.size()}</span> <iot:newToday test="${blog.regDate}" />
 				</a></td>
-				<td>${gallery.owner}</td>
-				<td>${gallery.readCnt}</td>
-				<td><fmt:formatDate value="${gallery.regDate}"
+				<td>${blog.blogHost}</td>
+				<td>${blog.readCnt}</td>
+				<td><fmt:formatDate value="${blog.regDate}"
 						pattern="yyyy-MM-dd" /></td>
 			</tr>
 		</c:forEach>

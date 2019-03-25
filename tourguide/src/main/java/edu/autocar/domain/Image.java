@@ -10,7 +10,7 @@ import lombok.Data;
 public class Image {
 	
 	private int imageId;
-	private int galleryId; // 갤러리 ID,
+	private int boardId; // 블로그 ID
 	private String orginalName; // 원본 파일명
 	private int fileSize; // 파일 크기
 	private String mimeType; // 파일의 mime 타입

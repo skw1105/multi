@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="edu.autocar.dao.CommentDao">
-	<select id="count" resultType="int" parameterType="int">
-		SELECT count(*) FROM comment_table where post_id = #{postId}
-	</select>
-	<insert id="insert" parameterType="Comment">
-		insert into comment_table
-		values
-		(
-		comment_table_SEQ.nextval, #{postId}, 0, #{content} ,
-		'hotteok', sysdate, sysdate
-		)
-	</insert>
-
-	<select id="getPage" resultType="Comment">
+<mapper namespace="edu.autocar.dao.BlogDao">
+	<select id="count" resultType="int" parameterType="String">
 		select
-		rownum, post_id, comment_no, parent_no, content, reg_date, writer
-		from COMMENT_TABLE
-		where post_id = #{postId} and rownum between #{start} and #{end}
-		order by rownum desc
+		count(*) from blog_board where blog_host = #{blogHost}
 	</select>
+
+	<select id="getPage" resultType="BlogBoard">
+		SELECT T.*
+		FROM
+			(
+			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, board_id, blog_host, title, content, read_cnt, reg_date, update_date
+			FROM blog_board
+			where blog_host= #{blogHost}
+			) T
+		WHERE SEQ BETWEEN #{start} AND #{end}
+	</select>
+	
+	<insert id="insert" parameterType="BlogBoard" useGeneratedKeys="true" keyColumn="board_id" keyProperty="boardId">
+		<!--  갤러리와 동시에 루프돌면서 이미지를 인서트 시키려고 할 때 갤러리 아이디가 필요함. -->
+		INSERT INTO
+		blog_board (board_id, blog_host, title, read_cnt, content, reg_date, update_date)
+		values(blog_board_SEQ.NEXTVAL, #{blogHost}, #{title}, 0, #{content}, sysdate, sysdate)
+	</insert>
+	
+	<select id="findById" parameterType="int" resultType="BlogBoard"> 
+		SELECT * FROM blog_board WHERE board_id=#{boardId}
+	</select>
+
+	
 </mapper>

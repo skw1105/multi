@@ -24,30 +24,33 @@
 		$(".btn.cmt-list").click(function(){
 			$(".table-toggle").toggle();
 		});
+		
+		
+		
 	});
 </script>
 <title>Insert title here</title>
 </head>
 <body>
 	<h2 class="my-5">
-		<i class="fas fa-file-alt"></i> ${gallery.title}
+		<i class="fas fa-file-alt"></i> ${blogBoard.title}
 	</h2>
 	<div style="overflow: hidden">
-		<div class="float-left">작성자 : ${gallery.owner}, 조회수 :
-			${gallery.readCnt}</div>
+		<div class="float-left">작성자 : ${blogBoard.blogHost} &nbsp / &nbsp 조회수 :
+			${blogBoard.readCnt}</div>
 		<div class="float-right">
 			수정일 :
-			<fmt:formatDate value="${gallery.updateDate}"
+			<fmt:formatDate value="${blogBoard.updateDate}"
 				pattern="yyyy-MM-dd HH:mm:ss" />
 		</div>
 	</div>
 	<hr />
-	${gallery.description}
+	${blogBoard.content}
 	<hr />
 
 
 	<!-- 사진 목록 -->
-	<c:forEach var="image" items="${gallery.list}" varStatus="s">
+	<c:forEach var="image" items="${blogBoard.list}" varStatus="s">
 		<img src="${contextPath}/gallery/image/${image.imageId}" width="400">
 		<img src="${contextPath}/gallery/thumb/${image.imageId}">
 		<a href="${contextPath}/gallery/download/${image.imageId}"> <i
@@ -59,8 +62,8 @@
 
 	<div id="delete-panel"></div>
 	<div class="text-center">
-		<c:if test="${USER.userId == gallery.owner}">
-			<a href="../edit/${gallery.galleryId}?page=${param.page}"
+		<c:if test="${USER.userId == blogBoard.blogHost}">
+			<a href="../edit/${blogBoard.boardId}?page=${param.page}"
 				class="btn btn-primary ok text-white"> <i class="fas fa-edit"></i>
 				수정
 			</a>
@@ -73,7 +76,7 @@
 		</a>
 	</div>
 	<hr />
-	<div class="container">
+	<div class="container cmt">
 
 		<h6 class="my-3">
 			<button class="btn cmt-list" style="border: 2px solid pink">
@@ -109,7 +112,7 @@
 		<div class="text-left">
 			<p>[user id]</p>
 			<form method="post"
-				action="${contextPath}/gallery/replyCreate/${gallery.galleryId}">
+				action="${contextPath}/gallery/replyCreate/${blogBoard.boardId}">
 				<textarea id="txtarea" name="content"> web editor </textarea>
 				<input type="submit" class="btn">
 			</form>

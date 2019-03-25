@@ -9,7 +9,7 @@ import edu.autocar.domain.Image;
 
 public interface ImageService {
 
-	List<Image> getGalleryImages(int galleryId) throws Exception;
+	List<Image> getGalleryImages(int boardId) throws Exception;
 
 	public void create(Image image) throws Exception;
 
@@ -21,6 +21,6 @@ public interface ImageService {
 	
 	public Image getImage(int imageId) throws Exception;
 	
-	int deleteByGalleryId(int galleryId) throws Exception;
+	int deleteByGalleryId(int boardId) throws Exception;
 
 }
