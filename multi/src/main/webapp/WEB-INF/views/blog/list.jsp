@@ -61,7 +61,8 @@
 						</div>
 					</div>
 					<div class="card bg-light">
-						<img class="card-img-top" src="${contextPath}/resources/img/BT.jpg" alt="Card image">
+					<a href="namisum.html">
+						<img class="card-img-top" src="${contextPath}/resources/img/BT.jpg" alt="Card image"></a>
 						<div class="card-img">
 							<h4 class="card-title">정병태</h4>
 							<p class="card-text">안녕하세요. </p>
