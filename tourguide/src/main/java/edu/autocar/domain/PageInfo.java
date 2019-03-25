@@ -30,7 +30,7 @@ public class PageInfo<T> {
 	List<T> list; // 해당 페이지 목록
 
 	public PageInfo(int currentPage, int total) {
-		this(currentPage, total, 10, 10);
+		this(currentPage, total, 5, 10);
 	}
 
 	public PageInfo(int currentPage, int total, int perPage, int perBlock) {

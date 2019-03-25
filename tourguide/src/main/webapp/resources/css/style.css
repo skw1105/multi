@@ -1,1 +1,27 @@
 @charset "EUC-KR";
+#cmt-tb{
+	width:100%;
+	margin-bottom: 2%;
+}
+
+tr.cmt-tb-writer {
+    height: 2em;
+}
+
+tr.cmt-tb-regDate {
+    font-size: small;
+    color: darkgray;
+}
+
+tr.cmt-tb-replyBtn button {
+    cursor: pointer;
+    font-size: small;
+}
+tr.cmt-tb-replyBtn td {
+    display: inline;
+}
+tr.cmt-tb-replyBtn {
+    height: 2em;
+    border-bottom: 1px solid lightgray;
+    width: 100px;
+}

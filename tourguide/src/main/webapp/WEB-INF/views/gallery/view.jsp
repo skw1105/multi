@@ -3,12 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib tagdir="/WEB-INF/tags/util" prefix="iot"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <script
 	src="${contextPath}/resources/bower_components/tinymce/tinymce.min.js"></script>
+<script src="${contextPath}/recources/css/style.css"></script>
 <script>
 	$(function() {
 		tinymce.init({
@@ -79,26 +82,29 @@
 			</button>
 		</h6>
 		<div class="table-toggle">
-			<table class="table table-hover">
+			<table id="cmt-tb">
 				<tbody>
 					<c:forEach var="comment" items="${pi.list}">
-						<tr>
-							<td>${comment.writer}</td>
+						<tr class="cmt-tb-writer">
+							<td><i class="fas fa-id-card"></i> ${comment.writer}</td>
 						</tr>
-						<tr>
+						<tr class="cmt-tb-content">
 							<td>${comment.content}</td>
 						</tr>
-						<tr>
+						<tr class="cmt-tb-regDate">
 							<td><fmt:formatDate value="${comment.regDate}"
 									pattern="yyyy-MM-dd" /></td>
 						</tr>
-						<tr>
+						<tr class="cmt-tb-replyBtn">
 							<td><button>답글</button></td>
 						</tr>
+						
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
+
+		<iot:pagination pageInfo="${pi}"></iot:pagination>
 
 		<div class="text-left">
 			<p>[user id]</p>
