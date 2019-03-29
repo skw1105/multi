@@ -1,25 +1,63 @@
 package edu.autocar.controller;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import edu.autocar.domain.LoginInfo;
-import edu.autocar.service.MemberService;
+import edu.autocar.domain.Membership;
+import edu.autocar.service.MembershipService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 public class LoginController {
 	@Autowired
-	MemberService service;
+	MembershipService service;
 
 	@GetMapping("/login")
-	public String login(LoginInfo loginInfo, @ModelAttribute("target") String target,
+	public String login(LoginInfo loginInfo,
+			@ModelAttribute("target") String target,
 			@ModelAttribute("reason") String reason) {
-		System.out.println("test");
-		loginInfo.setTarget(target);
-		loginInfo.setReason(reason);
+		
+		loginInfo.setUserId(target);
+		loginInfo.setPassword(reason);
+		
 		return "member/login";
+	}
+	
+	@PostMapping("/login")
+	public String postLogin(@Valid LoginInfo loginInfo, BindingResult result,
+			HttpSession session) throws Exception {
+		
+		if (result.hasErrors())
+			return "member/login";
+		
+		Membership membership = service.checkPassword(loginInfo.getUserId(), loginInfo.getPassword());
+		
+		if (membership != null) {
+			session.setAttribute("USER", membership);
+			String target = loginInfo.getTarget();
+			if (target != null && !target.isEmpty())
+				return "redirect:" + target;
+
+			return "redirect:/blogs";
+		} else {
+			result.reject("fail", "사용자 ID 또는 비밀번호가 일치하지 않습니다.");
+			return "member/login";
+		}
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		System.out.println("test");
+		session.invalidate();
+		return "redirect:/blog/list";
 	}
 }

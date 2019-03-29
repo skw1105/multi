@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.autocar.dao.BlogDao;
@@ -54,10 +55,13 @@ public class BlogServiceImpl implements BlogService {
 
 	}
 	
+	@Transactional
 	@Override
 	public BlogBoard getBlog(int boardId) throws Exception {
 		// TODO Auto-generated method stub
+		dao.increaseReadCnt(boardId);
 		BlogBoard blogBoard = dao.findById(boardId);
+		
 		blogBoard.setList(imageService.getGalleryImages(blogBoard.getBoardId()));
 		
 		String content = blogBoard.getContent();
@@ -102,6 +106,9 @@ public class BlogServiceImpl implements BlogService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
+	@Override
+	public List<BlogBoard> getBlogBoardList(String blogHost) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getBlogBoardListByBlogHost(blogHost);
+	}
 }

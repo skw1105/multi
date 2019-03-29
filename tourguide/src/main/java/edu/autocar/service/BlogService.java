@@ -29,4 +29,6 @@ public interface BlogService {
 
 	List<BlogBoard> findByOwner(String userId) throws Exception;
 
+	List<BlogBoard> getBlogBoardList(String blogHost) throws Exception;
+
 }

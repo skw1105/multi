@@ -3,21 +3,32 @@
 
 <mapper namespace="edu.autocar.dao.CommentDao">
 	<select id="count" resultType="int" parameterType="int">
-		SELECT count(*) FROM comment_table where post_id = #{postId}
+		SELECT
+		count(*) FROM comment_table where post_id = #{postId}
 	</select>
 	<insert id="insert" parameterType="Comment">
 		insert into comment_table
 		values
-		(		comment_table_SEQ.nextval, #{postId}, 0, #{content} ,
-		'hotteok', sysdate, sysdate
+		(
+		comment_table_SEQ.nextval, #{postId}, #{parentNo}, #{content} ,
+		#{writer}, sysdate, sysdate
 		)
 	</insert>
 
 	<select id="getPage" resultType="Comment">
-		select
-		rownum, post_id, comment_no, parent_no, content, reg_date, writer
-		from COMMENT_TABLE
-		where post_id = #{postId} and rownum between #{start} and #{end}
-		order by rownum desc
+		select *
+		from (
+			select rownum cnt, comment_no, POST_ID, PARENT_NO, level lv, content, REG_DATE, writer
+			from comment_table
+			start with parent_no = 0
+			connect by prior comment_no = parent_no
+			order siblings by comment_no desc
+			)
+		where post_id = #{postId} and cnt between #{start} and #{end}
 	</select>
+
+
+	<!-- <select id="getPage" resultType="Comment"> select * from comment_table 
+		where post_id = #{postId} and comment_no between #{start} and #{end} order 
+		by comment_no asc </select> -->
 </mapper>

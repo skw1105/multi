@@ -21,19 +21,14 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public boolean insert(Comment comment) throws Exception {
-		comment.setParentNo(0);
-		comment.setWriter("hotteok");
 		return dao.insert(comment) == 1;
 	}
 
 	@Override
-	public PageInfo<Comment> getPage(int galleryId, int page) throws Exception {
-		// TODO Auto-generated method stub
-		int totalCount = dao.count(galleryId);
+	public PageInfo<Comment> getPage(int boardId, int page) throws Exception {
+		int totalCount = dao.count(boardId);
 		PageInfo<Comment> pi = new PageInfo<>(page, totalCount);
-		List<Comment> list = dao.getPage(galleryId, pi.getStart(), pi.getEnd());
-//		for(Comment cmt : list)
-//			System.out.println(cmt.getCommentNo() + ", " + cmt.getContent());
+		List<Comment> list = dao.getPage(boardId, pi.getStart(), pi.getEnd());
 		pi.setList(list);
 		return pi;
 	}

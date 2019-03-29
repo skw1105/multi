@@ -10,14 +10,34 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$(function() {
+		var temp = "${USER.userId}";
+		$(".fas.fa-plus.blog.add").click(function(){
+			if(temp == null || temp == ""){
+				alert("로그인 해주세요");
+			}
+		}); 
+	});
+</script>
 </head>
 <body>
 	<h2 class="my-5">
-		<i class="fas fa-images"></i> 갤러리 목록
+		<i class="fas fa-images"></i>
+
+		<c:if test="${empty pi.list}">빈 블로그 입니다.</c:if>
+		<c:if test="${not empty pi.list}">${pi.list[0].blogHost}</c:if>
 	</h2>
 	<div class="text-right">
-		<a href="create?page=${pi.page}"><i class="fas fa-plus"></i> 추가</a> (총
+
+		<c:if test="${USER.userId == name}">
+			<a href="create?page=${pi.page}"><i class="fas fa-plus blog add"></i>
+				추가</a> (총
 		: ${pi.totalCount} 건)
+		
+		</c:if>
 	</div>
 	<table class="table table-striped table-hover">
 		<tr>

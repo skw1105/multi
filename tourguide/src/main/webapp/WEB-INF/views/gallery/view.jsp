@@ -20,13 +20,29 @@
 			height : 200,
 			theme_advanced_resizing : false
 		});
-		
-		$(".btn.cmt-list").click(function(){
+
+		$(".btn.cmt-list").click(function() {
 			$(".table-toggle").toggle();
 		});
+
+		$(".cmt.replyBtn").click(function() {
+			var temp = $(this).next();
+			if (temp.hasClass("visible")) {
+				temp.removeClass("visible");
+				temp.css("display", "none");
+			} else {
+				$(".cmt.replyTiny").removeClass("visible");
+				$(".cmt.replyTiny").css("display", "none");
+				temp.addClass("visible");
+				temp.css("display", "block");
+			}
+		});
+		var checkbox_val = $("input[type=checkbox]").val();
 		
-		
-		
+		$(".btn.modi").click(function(){
+			alert("수정 중입니다.");
+		});
+
 	});
 </script>
 <title>Insert title here</title>
@@ -36,8 +52,8 @@
 		<i class="fas fa-file-alt"></i> ${blogBoard.title}
 	</h2>
 	<div style="overflow: hidden">
-		<div class="float-left">작성자 : ${blogBoard.blogHost} &nbsp / &nbsp 조회수 :
-			${blogBoard.readCnt}</div>
+		<div class="float-left">작성자 : ${blogBoard.blogHost} &nbsp &nbsp
+			조회수 : ${blogBoard.readCnt}</div>
 		<div class="float-right">
 			수정일 :
 			<fmt:formatDate value="${blogBoard.updateDate}"
@@ -63,15 +79,14 @@
 	<div id="delete-panel"></div>
 	<div class="text-center">
 		<c:if test="${USER.userId == blogBoard.blogHost}">
-			<a href="../edit/${blogBoard.boardId}?page=${param.page}"
-				class="btn btn-primary ok text-white"> <i class="fas fa-edit"></i>
+			<button class="btn modi btn-primary ok text-white"><i class="fas fa-edit"></i>
 				수정
-			</a>
-			<button class="btn btn-danger delete">
+			</button>
+			<button class="btn modi btn-danger delete">
 				<i class="fas fa-trash"></i> 삭제
 			</button>
 		</c:if>
-		<a href="../list?page=${page}" class="btn btn-primary back"> <i
+		<a href="../list?userId=${blogBoard.blogHost}&page=${page}" class="btn btn-primary back"> <i
 			class="fas fa-undo"></i> 목록
 		</a>
 	</div>
@@ -85,23 +100,54 @@
 			</button>
 		</h6>
 		<div class="table-toggle">
-			<table id="cmt-tb">
+			<table id="cmt-tb" style="width: 100%">
 				<tbody>
+					<!-- 0 level의 일반 댓글 -->
 					<c:forEach var="comment" items="${pi.list}">
-						<tr class="cmt-tb-writer">
-							<td><i class="fas fa-id-card"></i> ${comment.writer}</td>
+						<tr>
+
+							<td>
+								<div class="first-section">
+									<c:forEach varStatus="sts" begin="1" end="${comment.lv}">
+										<c:if test="${sts.index ne 1}">
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										</c:if>
+										<c:if test="${comment.lv>1 and sts.last}">
+											<i class="fas fa-sign-in-alt"
+												style="font-size: 2em; margin-right: 1em"></i>
+										</c:if>
+									</c:forEach>
+								</div>
+								<div class="second-section">
+									<i class="fas fa-id-card" style="display: inline"></i>
+									<p class="cmt writer">${comment.writer}</p>
+									<div class="cmt content">${comment.content}</div>
+									<p class="cmt regDate">
+										<fmt:formatDate value="${comment.regDate}"
+											pattern="yyyy-MM-dd" />
+									</p>
+									<button class="cmt replyBtn">답글</button>
+									<div class="cmt replyTiny" style="display: none">
+										<table class="cmt inner-tb">
+											<tr>
+												<td><i class="fas fa-sign-in-alt"
+													style="font-size: 2em; margin-right: 1em"></i></td>
+												<td>
+													<form method="post"
+														action="${contextPath}/gallery/replyCreate/${blogBoard.boardId}/${pi.page}">
+														<input type="hidden" id="parentNo" name="parentNo"
+															value="${comment.commentNo}">
+														<textarea id="txtarea" name="content"></textarea>
+														<input type="submit" class="btn">
+													</form>
+												</td>
+											</tr>
+										</table>
+									</div>
+						<hr />
+						</div>
+						</td>
 						</tr>
-						<tr class="cmt-tb-content">
-							<td>${comment.content}</td>
-						</tr>
-						<tr class="cmt-tb-regDate">
-							<td><fmt:formatDate value="${comment.regDate}"
-									pattern="yyyy-MM-dd" /></td>
-						</tr>
-						<tr class="cmt-tb-replyBtn">
-							<td><button>답글</button></td>
-						</tr>
-						
 					</c:forEach>
 				</tbody>
 			</table>
@@ -110,10 +156,10 @@
 		<iot:pagination pageInfo="${pi}"></iot:pagination>
 
 		<div class="text-left">
-			<p>[user id]</p>
+			<p>${blogBoard.blogHost}</p>
 			<form method="post"
-				action="${contextPath}/gallery/replyCreate/${blogBoard.boardId}">
-				<textarea id="txtarea" name="content"> web editor </textarea>
+				action="${contextPath}/gallery/replyCreate/${blogBoard.boardId}/${pi.page}">
+				<textarea id="txtarea" name="content"></textarea>
 				<input type="submit" class="btn">
 			</form>
 		</div>

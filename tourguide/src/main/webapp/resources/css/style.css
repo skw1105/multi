@@ -1,27 +1,36 @@
 @charset "EUC-KR";
-#cmt-tb{
-	width:100%;
-	margin-bottom: 2%;
+
+.cmt{
+	padding:0px;
+	margin:0px;
+}
+p.cmt.writer {
+	display: inline;
+	padding-left: 2%;
 }
 
-tr.cmt-tb-writer {
-    height: 2em;
-}
-
-tr.cmt-tb-regDate {
+p.cmt.regDate {
     font-size: small;
     color: darkgray;
 }
+button.cmt.replyBtn {
+    margin-top: 0.5em;
+  	 width: 5em;
+    font-size: 80%;
+}
 
-tr.cmt-tb-replyBtn button {
-    cursor: pointer;
-    font-size: small;
+
+.first-section{
+	display:inline;
+	float:left;
+	margin-top:1%;
 }
-tr.cmt-tb-replyBtn td {
-    display: inline;
+.second-section{
+	display:inline-block;
 }
-tr.cmt-tb-replyBtn {
-    height: 2em;
-    border-bottom: 1px solid lightgray;
-    width: 100px;
+
+table.cmt.inner-tb {
+    margin-top: 3%;
 }
+
+

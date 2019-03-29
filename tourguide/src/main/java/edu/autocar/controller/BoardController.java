@@ -36,7 +36,6 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) throws Exception {
 		System.out.println("/board/list");
-		System.out.println("page : " + page);
 		PageInfo<Board> pi = service.getPage(page);
 		model.addAttribute("pi", pi);
 	}
@@ -50,7 +49,7 @@ public class BoardController {
 	public String postCreate(@Valid Board board, BindingResult result) throws Exception {
 		log.info(board.toString());
 		if (result.hasErrors()) {
-			log.info("유효성 검증 실패");
+			log.info("valid check fail");
 			return "board/create";
 		}
 		service.create(board);

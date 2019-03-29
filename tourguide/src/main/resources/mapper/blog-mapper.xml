@@ -10,24 +10,32 @@
 	<select id="getPage" resultType="BlogBoard">
 		SELECT T.*
 		FROM
-			(
-			SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, board_id, blog_host, title, content, read_cnt, reg_date, update_date
-			FROM blog_board
-			where blog_host= #{blogHost}
-			) T
+		(
+		SELECT ROW_NUMBER() OVER (ORDER BY reg_date DESC) AS SEQ, board_id,
+		blog_host, title, content, read_cnt, reg_date, update_date
+		FROM blog_board
+		where blog_host= #{blogHost}
+		) T
 		WHERE SEQ BETWEEN #{start} AND #{end}
 	</select>
-	
-	<insert id="insert" parameterType="BlogBoard" useGeneratedKeys="true" keyColumn="board_id" keyProperty="boardId">
-		<!--  갤러리와 동시에 루프돌면서 이미지를 인서트 시키려고 할 때 갤러리 아이디가 필요함. -->
+
+	<insert id="insert" parameterType="BlogBoard"
+		useGeneratedKeys="true" keyColumn="board_id" keyProperty="boardId">
+		<!-- 갤러리와 동시에 루프돌면서 이미지를 인서트 시키려고 할 때 갤러리 아이디가 필요함. -->
 		INSERT INTO
-		blog_board (board_id, blog_host, title, read_cnt, content, reg_date, update_date)
-		values(blog_board_SEQ.NEXTVAL, #{blogHost}, #{title}, 0, #{content}, sysdate, sysdate)
+		blog_board (board_id, blog_host, title, read_cnt, content,
+		reg_date, update_date)
+		values(blog_board_SEQ.NEXTVAL, #{blogHost},
+		#{title}, 0, #{content}, sysdate, sysdate)
 	</insert>
-	
-	<select id="findById" parameterType="int" resultType="BlogBoard"> 
+
+	<select id="findById" parameterType="int" resultType="BlogBoard">
 		SELECT * FROM blog_board WHERE board_id=#{boardId}
 	</select>
 
-	
+	<update id="increaseReadCnt" parameterType="int">
+		UPDATE BLOG_BOARD SET
+		read_cnt = read_cnt + 1
+		WHERE board_id=#{boardId}
+	</update>
 </mapper>

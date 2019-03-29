@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.autocar.dao.MembershipDao">
+	<select id="count" resultType="int">
+		SELECT count(*) FROM membership
+	</select>
+
+	<select id="getMembershipList" resultType="Membership">
+		SELECT user_id, name, EXPLANATION, UPLOAD_DATE
+		FROM(
+		SELECT ROW_NUMBER() OVER (ORDER BY upload_date DESC) AS SEQ,
+		user_id, name, EXPLANATION, UPLOAD_DATE
+		FROM MEMBERship
+		)
+		<!-- WHERE SEQ BETWEEN #{start} AND #{end} -->
+		ORDER BY UPLOAD_DATE
+		DESC
+	</select>
+
+	<select id="findById" parameterType="String" resultType="Membership">
+		SELECT *
+		from membership
+		WHERE user_id=#{userId}
+	</select>
+
+	<insert id="insert" parameterType="Membership">
+		insert into
+		membership (user_id, password, name, salt, email, phone, explanation, reg_date, update_date, upload_date)
+		values(#{userId}, #{password}, #{name}, #{salt}, #{email}, #{phone}, #{explanation}, sysdate, sysdate, sysdate)
+	</insert>
+
+	<update id="update" parameterType="Membership">
+		UPDATE membership SET
+		email =	#{email},
+		phone = #{phone},
+		address = #{address},
+		EXPLANATION =#{EXPLANATION}
+		WHERE user_id=#{userId} and password=#{password}
+	</update>
+
+	<delete id="delete"> DELETE FROM MEMBERSHIP WHERE user_id=#{userId}
+	</delete>
+</mapper>
